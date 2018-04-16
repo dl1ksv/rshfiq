@@ -1,11 +1,11 @@
 rshfiq serves has hardware description of the RS-HFIQ from HobbyPCB to be used with quisk.
+Meanwhile a hardware description for the FuncubePro+ dongle is available, too.
 
-This package was tested with quisk-4.1.14  and wsjtx in WSPR mode. It should work with older versions of quisk, too.
+This package was tested with quisk-4.1.14 ,-4.1.15, and wsjtx in WSPR mode. It should work with older versions of quisk, too.
 
 It contains two possible hardware descriptions: 
 
-  * hardware_usbserial.py
-  
+  * hardware_usbserial.py  
     This description requires the installation of the Python pyserial package. Using this descriptions quisk directly communicates with the rs-hfiq hardware via the serialport, normally /dev/ttyUSB0.
  If your system uses another port, you have to modify
 
@@ -17,12 +17,17 @@ accordingly in the 'hardware_usbserial.py' file.
     This description requires hamlib with python bindings. 
     This description may be adopted to other models supported by hamlib, for instance the funcube dongle.
 
+  * hardware_funcube.py
+    As the FuncubePro+ dongle has settings for LNA Mixer and IF gain, settings that are not known to the RS-HFIQ, here is an hardware description that support these settings.
+
  
 If you have a running installation of quisk, untar or clone this repository into a directory of your choosing. Then start quisk and select config.
 
 Select the 'Radios' tab, select 'Add a new radio'. I suggest to choose 'Softrock fixed'. After adding choose the tab of the newly created radio and switch to the Hardware tab.
 
-If you wish to use the hardware_usbserial.py descripton, add it to the 'Hardware File Path'. 
+If you wish to use the hardware_usbserial.py descripton, add it to the 'Hardware File Path'.
+
+If you want to use the funcubePro+ add hardware_funcube.py to the 'Hardware File Path' and funcube_widget.py to the 'Widget File Path'. This adds the buttons for the gain controls. 
 
 Then on the 'Sound' tab, configure the sound device settings according to your system configuration.
 
