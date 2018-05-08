@@ -56,7 +56,11 @@ class Hardware(BaseHardware):
             serialport.write("*W\r")
             text = serialport.readline()
             print("Retrieved version: ", text)
-        return text
+	    if text[0:7] == "RS-HFIQ" :
+        	return text
+	    else :
+		print("Could not find the RS-HFIQ device. Perhaps wrong usb port ?\nTerminating")
+		exit()
     def close(self):			# Called once to close the Hardware
 
         if serialport.isOpen():

@@ -1,5 +1,5 @@
 # Please do not change this hardware control module for Quisk.
-# It provides USB / serial control of RS-HFIQ hardware.
+# It provides USB / serial control of FuncubePro+ hardware.
 
 from __future__ import print_function
 
@@ -9,7 +9,7 @@ import _quisk as QS
 
 import Hamlib
 
-DEBUG = 0
+DEBUG = 1
 
 class Hardware(BaseHardware):
     def __init__(self, app, conf):
@@ -21,8 +21,11 @@ class Hardware(BaseHardware):
 	self.ifgain = None
 	self.receiver = Hamlib.Rig(self.model)
 	self.receiver.open()
-
         self.vfo = int(self.receiver.get_freq())
+	if(self.vfo == 0 ):
+	       print('+++ Could not find FuncubePro+ !\nExiting')
+	       exit()	
+	
 	self.mixer = self.receiver.get_level_i(Hamlib.RIG_LEVEL_ATT,Hamlib.RIG_VFO_CURR)
 	self.lna = self.receiver.get_level_i(Hamlib.RIG_LEVEL_PREAMP,Hamlib.RIG_VFO_CURR)
         self.ifgain = (int)(self.receiver.get_level_f(Hamlib.RIG_LEVEL_RF,Hamlib.RIG_VFO_CURR)*100)
