@@ -33,6 +33,12 @@ Then on the 'Sound' tab, configure the sound device settings according to your s
 
 **Important:**
 
+**RS-HFIQ **A given signals output must be turned on for the signal to be present. [See:](https://sites.google.com/site/rshfiqtransceiver/home/technical-data/interface-commands)
+
+Generally a 4 ma drive seems like it works OK. This setting has to be done only once.
+You can do this using the arduino ide or uncomment line 45 in hardware_usbserial.py
+
+
 On my system I had to change the I/Q channels for I/Q Sample Input and Tx Output.
 
 With some soundcards I got no sound on transmit. 
