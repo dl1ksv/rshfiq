@@ -1,7 +1,7 @@
 rshfiq serves has hardware description of the RS-HFIQ from HobbyPCB to be used with quisk.
 Meanwhile a hardware description for the FuncubePro+ dongle is available, too.
 
-This package was tested with quisk-4.1.14 ,-4.1.15, and wsjtx in WSPR mode. It should work with older versions of quisk, too.
+This package was tested with quisk-4.1.76 and hamlib 4 and python 3.9.
 
 It contains two possible hardware descriptions: 
 
