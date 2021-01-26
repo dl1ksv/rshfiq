@@ -33,18 +33,20 @@ class BottomWidgets:    # Add extra widgets to the bottom of the screen
   def OnLNA(self, event):
     btn = event.GetEventObject()
     if btn.GetValue() :
-	value = 1
+        value = 1
     else :
-	value = 0
+        value = 0
+
     print('LNA: ',value)
     self.hardware.SetLNA(value)
 
   def OnMixer(self, event):
     btn = event.GetEventObject()
     if btn.GetValue() :
-	value = 1
+        value = 1
     else :
-	value = 0
+        value = 0
+
     print('Mixer: ',value)
     self.hardware.SetMixer(value)
 

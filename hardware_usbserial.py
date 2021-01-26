@@ -26,11 +26,11 @@ class Hardware(BaseHardware):
         serialport.parity = serial.PARITY_NONE #set parity check: no parity
         serialport.stopbits = serial.STOPBITS_ONE #number of stop bits
         serialport.timeout = 1            #non-block read
-	serialport.rtscts = False
+        serialport.rtscts = False
 	
         try:
             serialport.open()
-        except Exception, e:
+        except Exception as e:
             print(e)
             raise Exception
 
@@ -56,11 +56,14 @@ class Hardware(BaseHardware):
             serialport.write("*W\r")
             text = serialport.readline()
             print("Retrieved version: ", text)
-	    if text[0:7] == "RS-HFIQ" :
+            
+        if text[0:7] == "RS-HFIQ" :
         	return text
-	    else :
-		print("Could not find the RS-HFIQ device. Perhaps wrong usb port ?\nTerminating")
-		exit()
+
+        else :
+            print("Could not find the RS-HFIQ device. Perhaps wrong usb port ?\nTerminating")
+            exit()
+
     def close(self):			# Called once to close the Hardware
 
         if serialport.isOpen():
