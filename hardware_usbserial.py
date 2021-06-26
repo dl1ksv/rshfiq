@@ -76,7 +76,7 @@ class Hardware(BaseHardware):
             print("Failed to open the RS-HFIO serial port. Perhaps wrong usb port?\nTerminating...")
             exit()
 
-   def close(self): # Called once to close the Hardware
+    def close(self): # Called once to close the Hardware
         if serialport.isOpen():
             #Ensure we're not left keyed up and shut off the output level
             cmdstr = '*x0\r*Of0\r'
