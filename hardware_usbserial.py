@@ -35,40 +35,54 @@ class Hardware(BaseHardware):
         except Exception as e:
             print(e)
             raise Exception
+            
+        self.vfo = None
 
+        return None
+        
+    def open(self): # Called once to open the Hardware
         if serialport.isOpen():
-            #Flush input and output buffer, discarding all its contents
+            #Wait for an initial response to verify we're connected
+            if DEBUG == 1:
+            	print("Attempting handshake with RS-HFIQ using *W command...")
+            ver = ''
+            attemptCount = 0
+            while not ( "HFIQ" in ver ):
+                if DEBUG == 1:
+                    print("\t...Attempt "+str(attemptCount+1)+".")
+                if attemptCount > 10:
+                    print("Could not find the RS-HFIQ device. Perhaps wrong usb port ?\nTerminating...")
+                    exit()
+                attemptCount += 1
+                time.sleep(.25)
+                serialport.flushInput()
+                serialport.flushOutput()
+                command='*W\r'
+                serialport.write(command.encode())
+                ver = serialport.readline().strip().decode()
+
+            if DEBUG == 1:
+                print("... Completed handshake with RS-HFIQ.")
             serialport.flushInput()
             serialport.flushOutput()
 
             # Send init string
             command='*OF2\r'
             serialport.write(command.encode())
-
-            # Wait a moment for init to finish
-            time.sleep(1)
-
-        self.vfo = None
-
-        return None
-    def open(self): # Called once to open the Hardware
-        if serialport.isOpen():
-            # Get RS-HFIQ version string
-            serialport.flushInput()
-            serialport.flushOutput()
-            command='*W\r'
-            serialport.write(command.encode())
-            text = serialport.readline()
-            ver=text.strip()
-            print("Retrieved version: ", ver.decode())
-            if "HFIQ" in str(ver.decode()):
-                return str(ver.decode())
-            else :
-                print("Could not find the RS-HFIQ device. Perhaps wrong usb port ?\nTerminating")
-                exit()
+            time.sleep(.25)#FIXME: Possibly some sort of race condition requiring this from time to time
+            serialport.flush()
+            return ver
+        else :
+            print("Failed to open the RS-HFIO serial port. Perhaps wrong usb port?\nTerminating...")
+            exit()
 
     def close(self): # Called once to close the Hardware
         if serialport.isOpen():
+            #Ensure we're not left keyed up and shut off the output level
+            cmdstr = '*x0\r*Of0\r'
+            serialport.write(cmdstr.encode())
+            time.sleep(.25)#FIXME: Possibly some sort of race condition requiring this from time to time
+            serialport.flush()
             serialport.close()
         return "Closed"
 
